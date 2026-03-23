@@ -3308,11 +3308,10 @@ body {
 }
 
 /* ══════════════════════════════════════════════
-   RESPONSIVE – NEW SECTIONS
+   STEP 1 — TABLET (max-width: 1100px)
+   Multi-column grids drop to 2 columns
 ══════════════════════════════════════════════ */
 @media (max-width: 1100px) {
-
-
   .team-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -3326,104 +3325,332 @@ body {
     gap: 40px;
   }
 
-
-
   .program-cta-box {
     flex-direction: column;
     text-align: center;
   }
 }
 
+/* ══════════════════════════════════════════════
+   STEP 2 — MOBILE LANDSCAPE / LARGE PHONE (max-width: 768px)
+   Nav collapses, sections stack, cards resize
+══════════════════════════════════════════════ */
 @media (max-width: 768px) {
+
+  /* --- Global Section Spacing --- */
   .about-section,
   .offerings-section,
   .program-section,
   .why-section,
   .resources-section,
-  .contact-section {
+  .contact-section,
+  .disclaimer-section {
     padding: 60px 0;
   }
 
   .closing-section {
-    padding: 80px 24px;
+    padding: 70px 20px;
+  }
+
+  /* --- Container Horizontal Padding --- */
+  .container {
+    padding: 0 16px;
+  }
+
+  /* --- Nav Bar --- */
+  .nav-links {
+    display: none;
+  }
+
+  .nav-inner {
+    padding: 0 16px;
+    justify-content: space-between;
+  }
+
+  /* --- Hero Section --- */
+  .hero-section {
+    padding: 100px 16px 60px;
+    min-height: auto;
   }
 
   .hero-title {
-    font-size: clamp(2.2rem, 8vw, 2.8rem);
+    font-size: clamp(2rem, 9vw, 2.6rem);
+    letter-spacing: -1px;
   }
 
   .hero-sub {
-    font-size: 1rem;
-    padding: 0 10px;
+    font-size: 0.97rem;
+    line-height: 1.7;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
   }
 
   .hero-cta .btn-primary,
   .hero-cta .btn-ghost {
-    padding: 12px 24px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    justify-content: center;
+    padding: 14px 24px;
     font-size: 0.95rem;
   }
 
-  .offer-card,
-  .why-card {
-    flex: 0 0 85vw;
-    max-width: 280px;
-  }
-
   .hero-trust-row {
-    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
   }
 
   .trust-div {
     display: none;
   }
 
-  .resources-grid {
-    grid-template-columns: 1fr;
+  /* --- Section Headers --- */
+  .section-header {
+    margin-bottom: 32px;
   }
 
-  .team-grid {
-    grid-template-columns: 1fr;
-    max-width: 360px;
-    margin: 0 auto;
+  .section-header h2 {
+    font-size: clamp(1.7rem, 6vw, 2.2rem);
   }
 
-  .contact-grid {
+  .section-header p {
+    font-size: 0.9rem;
+  }
+
+  /* --- About Section --- */
+  .about-grid {
     grid-template-columns: 1fr;
-    max-width: 400px;
-    margin: 0 auto;
+    gap: 32px;
+  }
+
+  .about-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* --- Offerings / What We Offer (Horizontal Scroll) --- */
+  .offerings-grid {
+    padding: 10px 16px 24px;
+    gap: 16px;
+  }
+
+  .offer-card {
+    flex: 0 0 80vw;
+    max-width: 300px;
+    padding: 22px;
+  }
+
+  /* --- Program / Roadmap --- */
+  .roadmap {
+    padding: 0 4px;
   }
 
   .roadmap::before {
-    left: 60px;
+    left: 55px;
   }
 
   .roadmap-item {
-    grid-template-columns: 110px 1fr;
+    grid-template-columns: 100px 1fr;
+    gap: 0 12px;
   }
 
   .rm-card {
     flex-direction: column;
+    padding: 18px;
+    gap: 10px;
+  }
+
+  .rm-topics {
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
   .program-cta-box {
-    padding: 28px;
+    flex-direction: column;
+    padding: 24px 20px;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .program-cta-box .btn-primary {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+
+  /* --- Why Choose Us (Horizontal Scroll) --- */
+  .why-grid {
+    padding: 10px 16px 24px;
+    gap: 16px;
+  }
+
+  .why-card {
+    flex: 0 0 80vw;
+    max-width: 300px;
+    padding: 22px;
+  }
+
+  /* --- Free Resources --- */
+  .resources-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .resource-card {
+    padding: 22px;
+  }
+
+  /* --- Disclaimer --- */
+  .disclaimer-box {
+    border-radius: 12px;
+  }
+
+  .disc-body {
+    padding: 20px 16px;
+  }
+
+  /* --- Contact Grid --- */
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .contact-card {
+    padding: 20px 14px;
+  }
+
+  /* --- Team Grid --- */
+  .team-grid {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  /* --- Closing CTA --- */
+  .closing-inner h2 {
+    font-size: clamp(1.5rem, 5.5vw, 2rem);
+  }
+
+  .closing-inner > p {
+    font-size: 0.9rem;
+  }
+
+  .closing-mantras {
+    gap: 6px;
+    flex-direction: column;
+  }
+
+  .closing-mantras .cm-div {
+    display: none;
+  }
+
+  .closing-inner .btn-primary.large {
+    padding: 14px 32px;
+    font-size: 0.95rem;
+  }
+
+  /* --- Footer --- */
+  .footer-inner {
+    flex-direction: column;
+    gap: 32px;
+    padding: 40px 16px 24px;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 16px;
+    font-size: 0.78rem;
   }
 }
 
-
+/* ══════════════════════════════════════════════
+   STEP 3 — SMALL PHONE (max-width: 480px)
+   Final refinements for compact screens
+══════════════════════════════════════════════ */
 @media (max-width: 480px) {
+
+  /* --- Hero --- */
+  .hero-title {
+    font-size: clamp(1.8rem, 10vw, 2.2rem);
+  }
+
+  .hero-badge {
+    font-size: 0.72rem;
+    padding: 6px 14px;
+  }
+
+  /* --- Roadmap fully vertical --- */
+  .roadmap::before {
+    display: none;
+  }
+
   .roadmap-item {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .rm-badge {
     width: fit-content;
   }
 
-  .roadmap::before {
+  .rm-connector {
     display: none;
   }
+
+  /* --- Offer cards wider on tiny screens --- */
+  .offer-card,
+  .why-card {
+    flex: 0 0 88vw;
+    max-width: 320px;
+  }
+
+  /* --- Contact grid single column --- */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* --- Footer links stack vertically --- */
+  .footer-links {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* --- Closing CTA --- */
+  .closing-section {
+    padding: 60px 16px;
+  }
+
+  .closing-inner h2 {
+    font-size: 1.45rem;
+    letter-spacing: -0.5px;
+  }
+
+  .closing-inner .btn-primary.large {
+    width: 100%;
+    max-width: 280px;
+    padding: 14px 20px;
+  }
 }
+
 
 /* ══════════════════════════════════════════════
    CLOSING CTA SECTION
