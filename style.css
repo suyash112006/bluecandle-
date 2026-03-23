@@ -2556,7 +2556,8 @@ body {
   gap: 0;
   position: relative;
   min-width: max-content;
-  padding: 0 24px;
+  padding: 16px 24px 20px; /* Top padding allows badges to peek out, bottom padding for dots */
+  align-items: stretch; /* Forces all columns to be equal height */
 }
 
 /* Horizontal gradient line behind the dots */
@@ -2564,19 +2565,18 @@ body {
   position: absolute;
   left: 24px;
   right: 24px;
-  top: calc(100% - 160px); /* aligns with the dots midline */
+  bottom: 39px; /* 20px (track bottom padding) + 12px (dot bottom margin) + 7px (half dot) = 39px */
   height: 2px;
   background: linear-gradient(90deg, var(--blue-dark), var(--blue), var(--green));
-  opacity: 0.35;
+  opacity: 0.45;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Each week column — card on top, dot in middle, badge below */
+/* Each week column */
 .rm-col {
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 280px;
   flex-shrink: 0;
   position: relative;
@@ -2598,14 +2598,16 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Card fills the column above the dot */
+/* Card fills the column so the dot is pushed to exactly same bottom height */
 .rm-col .rm-card {
+  flex: 1; /* Stretch down uniformly */
+  display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 20px 18px;
+  padding: 24px 18px 20px;
   width: 100%;
   margin: 0 12px;
-  margin-bottom: 0;
+  position: relative;
   transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
@@ -2615,7 +2617,7 @@ body {
   box-shadow: 0 12px 30px rgba(0,0,0,0.3);
 }
 
-/* Dot in the center of the line */
+/* Dot precisely at bottom of column */
 .rm-dot {
   width: 14px;
   height: 14px;
@@ -2624,9 +2626,14 @@ body {
   border: 3px solid var(--bg);
   box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
   flex-shrink: 0;
-  margin: 16px 0 12px;
+  margin: 16px auto 12px;
   position: relative;
   z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.rm-col:hover .rm-dot {
+  transform: scale(1.3);
 }
 
 .rm-dot--highlight {
@@ -2634,8 +2641,11 @@ body {
   box-shadow: 0 0 14px rgba(34, 197, 94, 0.7);
 }
 
-/* Week badge below the dot */
+/* Week badge floats on the top-left edge of the card */
 .rm-badge {
+  position: absolute;
+  top: -14px;
+  left: 20px;
   background: linear-gradient(135deg, var(--blue-dark), var(--blue));
   color: #fff;
   font-size: 0.7rem;
@@ -2644,9 +2654,9 @@ body {
   letter-spacing: 0.12em;
   padding: 6px 16px;
   border-radius: 100px;
-  text-align: center;
-  box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   white-space: nowrap;
+  z-index: 10;
 }
 
 .rm-badge--highlight {

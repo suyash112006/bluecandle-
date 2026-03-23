@@ -227,6 +227,7 @@ function initMainPage() {
     initScrollReveal();
     initOfferingsScroll();
     initWhyScroll();
+    initTimelineScroll();
 }
 
 
@@ -352,6 +353,47 @@ function initWhyScroll() {
     }, { passive: false });
 
     const cards = grid.querySelectorAll('.why-card');
+
+    function checkVisibility() {
+        const gridRect = grid.getBoundingClientRect();
+        cards.forEach((card, i) => {
+            if (card.classList.contains('revealed')) return;
+            const rect = card.getBoundingClientRect();
+            if (rect.left < gridRect.right && rect.right > gridRect.left) {
+                setTimeout(() => card.classList.add('revealed'), i * 80);
+            }
+        });
+    }
+
+    grid.addEventListener('scroll', checkVisibility, { passive: true });
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                checkVisibility();
+                sectionObserver.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+
+    sectionObserver.observe(grid);
+}
+
+// ─────────────────────────────────────────────
+// 6d. TIMELINE HORIZONTAL SCROLL & REVEAL
+// ─────────────────────────────────────────────
+function initTimelineScroll() {
+    const grid = document.querySelector('.rm-timeline');
+    if (!grid) return;
+
+    grid.addEventListener('wheel', (e) => {
+        if (e.deltaY !== 0) {
+            e.preventDefault();
+            grid.scrollBy({ left: e.deltaY * 1.5, behavior: 'smooth' });
+        }
+    }, { passive: false });
+
+    const cards = grid.querySelectorAll('.rm-col');
 
     function checkVisibility() {
         const gridRect = grid.getBoundingClientRect();
