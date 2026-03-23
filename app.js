@@ -411,6 +411,7 @@ function initTimelineScroll() {
     const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                grid.classList.add('revealed');
                 checkVisibility();
                 sectionObserver.disconnect();
             }
