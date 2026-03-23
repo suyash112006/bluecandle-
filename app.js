@@ -228,6 +228,7 @@ function initMainPage() {
     initOfferingsScroll();
     initWhyScroll();
     initTimelineScroll();
+    initCommunityReveal();
 }
 
 
@@ -419,4 +420,26 @@ function initTimelineScroll() {
     }, { threshold: 0.1 });
 
     sectionObserver.observe(grid);
+}
+
+// ─────────────────────────────────────────────
+// 7. COMMUNITY REVEAL
+// ─────────────────────────────────────────────
+function initCommunityReveal() {
+    const cards = document.querySelectorAll('.contact-card.reveal-on-scroll');
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = parseInt(entry.target.getAttribute('data-delay')) || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('revealed');
+                }, delay);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    cards.forEach(card => observer.observe(card));
 }
