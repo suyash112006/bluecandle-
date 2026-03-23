@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="BlueCandleFx – Professional Forex education and mentorship. Structured programs for beginner to intermediate traders focused on discipline, risk management, and real market skills." />
+  <title>BlueCandleFx – Forex Education & Mentorship</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="loader" aria-hidden="true">
+    <canvas id="particleCanvas"></canvas>
+    <div class="fx-pair fp1">EUR/USD</div>
+    <div class="fx-pair fp2">GBP/JPY</div>
+    <div class="fx-pair fp3">USD/CHF</div>
+    <div class="fx-pair fp4">XAU/USD</div>
+    <div class="fx-pair fp5">NAS100</div>
+    <div class="fx-pair fp6">AUD/CAD</div>
+    <div class="loader-center">
+      <div class="logo-stage visible" id="logoStage">
+        <div class="logo-ring-wrap">
+          <div class="logo-ring r1"></div>
+          <div class="logo-ring r2"></div>
+          <div class="logo-ring r3"></div>
+        </div>
+        <div class="logo-flame">
+          <svg width="80" height="100" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="flame-svg">
+            <rect x="26" y="50" width="28" height="36" rx="4" fill="url(#lCandleGrad)" />
+            <rect x="38" y="24" width="4" height="26" rx="2" fill="#94a3b8" />
+            
+            <!-- Outer Flame -->
+            <path d="M40 8 C35 8 28 20 28 32 C28 40 34 42 40 42 C46 42 52 40 52 32 C52 20 45 8 40 8Z" fill="url(#lFlameGrad)">
+              <animateTransform attributeName="transform" type="scale" values="1,1;1.05,1.1;1,1" dur="1.5s" repeatCount="indefinite" additive="sum" />
+              <animate attributeName="opacity" values="0.7;1;0.7" dur="2.5s" repeatCount="indefinite" />
+            </path>
+            
+            <!-- Middle Flame -->
+            <path d="M40 15 C37 15 32 24 32 32 C32 38 36 40 40 40 C44 40 48 38 48 32 C48 24 43 15 40 15Z" fill="url(#lMidFlameGrad)">
+              <animateTransform attributeName="transform" type="scale" values="1,1;1.05,1.1;1,1" dur="1.2s" repeatCount="indefinite" additive="sum" />
+            </path>
+            
+            <!-- Inner Flame core -->
+            <path d="M40 22 C38 22 36 28 36 32 C36 35 38 38 40 38 C42 38 44 35 44 32 C44 28 42 22 40 22Z" fill="url(#lInnerFlameGrad)">
+              <animateTransform attributeName="transform" type="scale" values="1,1;1.1,1.2;1,1" dur="0.8s" repeatCount="indefinite" additive="sum" />
+            </path>
+            
+            <defs>
+              <linearGradient id="lCandleGrad" x1="26" y1="50" x2="54" y2="86" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1e40af" />
+                <stop offset="100%" stop-color="#1d4ed8" />
+              </linearGradient>
+              <radialGradient id="lFlameGrad" cx="50%" cy="80%" r="60%">
+                <stop offset="0%" stop-color="#fbbf24" />
+                <stop offset="40%" stop-color="#f59e0b" />
+                <stop offset="80%" stop-color="#ef4444" stop-opacity="0.3" />
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="lMidFlameGrad" cx="50%" cy="80%" r="50%">
+                <stop offset="0%" stop-color="#fff7ed" />
+                <stop offset="60%" stop-color="#fbbf24" />
+                <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="lInnerFlameGrad" cx="50%" cy="70%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.9" />
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-text-block">
+          <div class="loader-brand"><span class="logo-blue" id="typedBlue"></span><span class="logo-candle"
+              id="typedCandle"></span><span class="type-cursor" id="typeCursor">|</span></div>
+          <div class="logo-tagline" id="loaderTagline">Forex Education &amp; Mentorship</div>
+        </div>
+      </div>
+      <div class="loader-bar-wrap" id="loaderBarWrap">
+        <div class="loader-bar" id="loaderBar">
+          <div class="bar-shimmer"></div>
+        </div>
+      </div>
+      <div class="loader-status-row">
+        <div class="loader-pct" id="loaderPct">0%</div>
+        <div class="loader-status-msg" id="loaderStatusMsg">Initialising markets...</div>
+      </div>
+    </div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════════ -->
+  <div id="mainContent">
+
+    <!-- ── NAV ── -->
+    <header class="nav-bar" id="navbar">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <svg width="40" height="50" viewBox="0 0 80 100" fill="none" class="nav-flame-svg">
+            <rect x="26" y="50" width="28" height="36" rx="4" fill="url(#nCandleGrad)" />
+            <rect x="38" y="24" width="4" height="26" rx="2" fill="#94a3b8" />
+            <path d="M40 8 C35 8 28 20 28 32 C28 40 34 42 40 42 C46 42 52 40 52 32 C52 20 45 8 40 8Z" fill="url(#nFlameGrad)" />
+            <defs>
+              <linearGradient id="nCandleGrad" x1="26" y1="50" x2="54" y2="86" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1e40af" />
+                <stop offset="100%" stop-color="#1d4ed8" />
+              </linearGradient>
+              <radialGradient id="nFlameGrad" cx="50%" cy="80%" r="60%">
+                <stop offset="0%" stop-color="#fbbf24" />
+                <stop offset="60%" stop-color="#f97316" />
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+          </svg>
+          <span><span class="blue">Blue</span>CandleFx</span>
+        </a>
+        <nav class="nav-links">
+          <a href="#about">About</a>
+          <a href="#offerings">What We Offer</a>
+          <a href="#program">Program</a>
+
+          <a href="#resources">Resources</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a href="#contact" class="btn-ghost">Join Community</a>
+          <a href="#program" class="btn-primary">Start Learning</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── HERO ── -->
+    <!-- â”€â”€ HERO â”€â”€ -->
+    <section class="hero" id="hero">
+      <div class="hero-bg">
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-gradient"></div>
+      </div>
+      <div class="hero-content hero-content--centered">
+
+        <!-- Center: Text block -->
+        <div class="hero-center">
+          <div class="hero-badge" style="margin: 0 auto 20px;">
+            <span class="badge-dot"></span>
+            Forex Education · Built by Real Traders
+          </div>
+          <h1 class="hero-title hero-title--center">
+            Trade with Confidence.<br />
+            <span class="gradient-text">Learn with Purpose.</span>
+          </h1>
+          <p class="hero-sub hero-sub--center">
+            BlueCandleFx is a professional Forex education and mentorship firm built by experienced traders.
+            We guide beginners to intermediate traders through structured programs focused on
+            <strong>discipline, risk awareness, and real market skills</strong> — not quick profits.
+          </p>
+          <div class="hero-cta hero-cta--center">
+            <a href="#program" class="btn-primary large">Start Learning</a>
+            <a href="#contact" class="btn-ghost large">
+              <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+                <circle cx="8" cy="8" r="8" fill="white" fill-opacity=".15" />
+                <path d="M6 5.5l5 2.5-5 2.5V5.5z" fill="white" />
+              </svg>
+              Join Community
+            </a>
+          </div>
+          <div class="hero-trust-row" style="justify-content: center;">
+            <div class="trust-item"><span class="trust-icon">🎓</span> Structured Curriculum</div>
+            <div class="trust-div"></div>
+            <div class="trust-item"><span class="trust-icon">📈</span> Live Market Sessions</div>
+            <div class="trust-div"></div>
+            <div class="trust-item"><span class="trust-icon">🛡️</span> Risk-First Approach</div>
+          </div>
+        </div>
+
+      </div><!-- /hero-content -->
+
+    </section>
+    <!-- ── ABOUT ── -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-left">
+            <div class="section-label">Our Story</div>
+            <h2>Who Is BlueCandleFx?</h2>
+            <p>
+              BlueCandleFx was founded by traders who learned the markets the hard way —
+              through volatility, losses, and years of real experience.
+            </p>
+            <p>
+              We created BlueCandleFx to provide the <strong>education we wish we had when we started</strong>:
+              honest, structured, and focused on sustainable trading success.
+            </p>
+            <p>
+              Our team combines live market experience with practical teaching methods, helping traders
+              develop real skills instead of relying on shortcuts.
+            </p>
+            <div class="about-credo">
+              <div class="credo-line">We are <strong>not</strong> signal sellers.</div>
+              <div class="credo-line">We are <strong>not</strong> profit guarantors.</div>
+              <div class="credo-line highlight-line">We are <span>educators committed to building disciplined
+                  traders.</span></div>
+            </div>
+          </div>
+          <div class="about-right">
+            <div class="mission-card">
+              <div class="mc-icon">🎯</div>
+              <div class="mc-label">Mission</div>
+              <p>
+                To provide <strong>transparent and practical Forex education</strong> that empowers traders
+                with real market knowledge, technical skills, and psychological discipline.
+              </p>
+            </div>
+            <div class="mission-card vision">
+              <div class="mc-icon">🌐</div>
+              <div class="mc-label">Vision</div>
+              <p>
+                To build a <strong>global community of disciplined, risk-aware traders</strong> who approach
+                financial markets with confidence, strategy, and long-term thinking.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── WHAT WE OFFER ── -->
+    <section class="offerings-section" id="offerings">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">What We Offer</div>
+          <h2>A Complete Forex Education System</h2>
+          <p>Five pillars that build you from the ground up — no shortcuts, no false promises.</p>
+        </div>
+        <div class="offerings-grid">
+
+          <div class="offer-card" data-delay="0">
+            <div class="offer-num">01</div>
+            <div class="offer-icon">📚</div>
+            <h3>Comprehensive Market Education</h3>
+            <p>Learn the foundations of Forex trading including currency pairs, market structure, trading sessions, and
+              correlation analysis.</p>
+            <ul class="offer-list">
+              <li>Currency pairs & market structure</li>
+              <li>Trading sessions & timing</li>
+              <li>Correlation analysis</li>
+              <li>Capital base knowledge</li>
+            </ul>
+            <div class="offer-tag">Foundation</div>
+          </div>
+
+          <div class="offer-card" data-delay="100">
+            <div class="offer-num">02</div>
+            <div class="offer-icon">📈</div>
+            <h3>Technical & Fundamental Analysis</h3>
+            <p>Master chart patterns, indicators, support & resistance, price action, and the economic forces that drive
+              currency markets.</p>
+            <ul class="offer-list">
+              <li>Chart patterns & indicators</li>
+              <li>Support & resistance zones</li>
+              <li>Price action reading</li>
+              <li>Economic news impact</li>
+            </ul>
+            <div class="offer-tag">Analysis</div>
+          </div>
+
+          <div class="offer-card" data-delay="200">
+            <div class="offer-num">03</div>
+            <div class="offer-icon">🧠</div>
+            <h3>Trading Psychology & Risk Management</h3>
+            <p>Successful trading requires discipline. Learn emotional control, position sizing, stop-loss strategies,
+              and the mindset of consistent traders.</p>
+            <ul class="offer-list">
+              <li>Emotional control frameworks</li>
+              <li>Position sizing rules</li>
+              <li>Stop-loss strategy</li>
+              <li>Capital protection principles</li>
+            </ul>
+            <div class="offer-tag">Psychology</div>
+          </div>
+
+          <div class="offer-card" data-delay="300">
+            <div class="offer-num">04</div>
+            <div class="offer-icon">🎙️</div>
+            <h3>Live Market Sessions</h3>
+            <p>Experience real trading environments. Analyze charts together, discuss live setups, and observe
+              professional decision-making in real time.</p>
+            <ul class="offer-list">
+              <li>Live chart analysis</li>
+              <li>Real trade setup discussions</li>
+              <li>Entry & exit observation</li>
+              <li>Mentor-guided decisions</li>
+            </ul>
+            <div class="offer-tag">Live Practice</div>
+          </div>
+
+          <div class="offer-card" data-delay="400">
+            <div class="offer-num">05</div>
+            <div class="offer-icon">🏆</div>
+            <h3>Funded Account Guidance</h3>
+            <p>Navigate prop firm evaluations with clarity. We guide students through rules, risk limits, and
+              sustainable challenge strategies — education first, always.</p>
+            <ul class="offer-list">
+              <li>Evaluation rule breakdown</li>
+              <li>Risk limit management</li>
+              <li>Scaling strategies</li>
+              <li>Sustainable approach</li>
+            </ul>
+            <div class="offer-tag">Prop Trading</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PROGRAM / ROADMAP ── -->
+    <section class="program-section" id="program">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Learning Program</div>
+          <h2>Your 4-Week Trading Roadmap</h2>
+          <p>Each phase builds progressively to develop both confidence and competence — from zero to live market ready.
+          </p>
+        </div>
+        <div class="roadmap">
+
+          <div class="roadmap-item" data-delay="0">
+            <div class="rm-connector"></div>
+            <div class="rm-badge">Week 1</div>
+            <div class="rm-card">
+              <div class="rm-icon">🏗️</div>
+              <div class="rm-content">
+                <h3>Foundation Building</h3>
+                <p>Establish your core knowledge base. Learn how the Forex market works, how to read charts, and how to
+                  navigate your trading platform confidently.</p>
+                <div class="rm-topics">
+                  <span>Market Structure</span>
+                  <span>Currency Pairs</span>
+                  <span>Trading Sessions</span>
+                  <span>Platform Navigation</span>
+                  <span>Basic Chart Reading</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-item" data-delay="150">
+            <div class="rm-connector"></div>
+            <div class="rm-badge">Week 2</div>
+            <div class="rm-card">
+              <div class="rm-icon">🔬</div>
+              <div class="rm-content">
+                <h3>Technical Mastery</h3>
+                <p>Develop real chart-reading abilities. Study chart patterns, indicators, and trend identification so
+                  you can analyze price behavior independently.</p>
+                <div class="rm-topics">
+                  <span>Chart Patterns</span>
+                  <span>Key Indicators</span>
+                  <span>Trend Identification</span>
+                  <span>Support & Resistance</span>
+                  <span>Historical Price Behavior</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-item" data-delay="300">
+            <div class="rm-connector"></div>
+            <div class="rm-badge">Week 3</div>
+            <div class="rm-card">
+              <div class="rm-icon">⚙️</div>
+              <div class="rm-content">
+                <h3>Strategy & Psychology</h3>
+                <p>Build your personal trading framework. Combine risk management systems, position sizing, emotional
+                  discipline, and a complete trading plan you own.</p>
+                <div class="rm-topics">
+                  <span>Trading Strategies</span>
+                  <span>Risk Management</span>
+                  <span>Position Sizing</span>
+                  <span>Emotional Discipline</span>
+                  <span>Trading Plan Development</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-item" data-delay="450">
+            <div class="rm-badge">Week 4</div>
+            <div class="rm-card rm-card--highlight">
+              <div class="rm-icon">🚀</div>
+              <div class="rm-content">
+                <h3>Live Market Application</h3>
+                <p>Seven consecutive days of live market sessions with mentors. Real trade analysis, chart discussions,
+                  and setup identification — this is where theory meets practice.</p>
+                <div class="rm-topics">
+                  <span>Real Trade Analysis</span>
+                  <span>Chart Discussions</span>
+                  <span>Setup Identification</span>
+                  <span>Mentor Guidance</span>
+                  <span>Live Decision-Making</span>
+                </div>
+                <div class="rm-highlight-note">
+                  🎯 7 Consecutive Live Sessions
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="program-cta-box">
+          <div class="pcb-text">
+            <h3>Ready to start your trading journey?</h3>
+            <p>Join our next cohort and get access to all 4 weeks + live sessions + community support.</p>
+          </div>
+          <a href="#contact" class="btn-primary large">Enroll Now →</a>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ── WHY CHOOSE ── -->
+    <section class="why-section" id="why">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Why BlueCandleFx</div>
+          <h2>What Makes Us Different</h2>
+          <p>We don't sell you a dream. We build you a skillset.</p>
+        </div>
+        <div class="why-grid">
+
+          <div class="why-card" data-delay="0">
+            <div class="wc-icon">🎓</div>
+            <h3>Education-First Philosophy</h3>
+            <p>We prioritize learning over selling. There are no promises of overnight success — only structured
+              education designed to build real competence. No signal packs, no false signals.</p>
+          </div>
+
+          <div class="why-card" data-delay="100">
+            <div class="wc-icon">📺</div>
+            <h3>Real Market Exposure</h3>
+            <p>Students analyze live charts alongside mentors, experience real trading scenarios, and witness
+              transparent decision-making as it happens — not in theory.</p>
+          </div>
+
+          <div class="why-card" data-delay="200">
+            <div class="wc-icon">🛡️</div>
+            <h3>Strong Risk Management</h3>
+            <p>Capital protection is essential. We emphasize disciplined trading, proper risk sizing, and long-term
+              sustainability. The goal is survival first, profits second — always.</p>
+          </div>
+
+          <div class="why-card" data-delay="300">
+            <div class="wc-icon">🤝</div>
+            <h3>Community Support</h3>
+            <p>Trading doesn't have to be a lonely journey. Our community offers discussion groups, shared learning,
+              mentorship access, and collaborative growth from day one.</p>
+          </div>
+
+          <div class="why-card" data-delay="400">
+            <div class="wc-icon">⏳</div>
+            <h3>Long-Term Mindset</h3>
+            <p>We teach consistency, patience, and discipline above all else. Trading success is built over years, not
+              days. We set that expectation from the very first session.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FREE RESOURCES ── -->
+    <section class="resources-section" id="resources">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Free Resources</div>
+          <h2>Start Learning Before You Commit</h2>
+          <p>We believe in providing value first. Explore everything below — completely free.</p>
+        </div>
+        <div class="resources-grid">
+
+          <div class="resource-card">
+            <div class="rc-platform yt">
+              <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
+                <rect width="28" height="20" rx="5" fill="#FF0000" />
+                <path d="M11 6l8 4-8 4V6z" fill="white" />
+              </svg>
+              YouTube
+            </div>
+            <h3>Education Video Series</h3>
+            <p>Structured video lessons covering Forex basics, technical analysis, chart reading, and trading
+              psychology. Learn at your own pace, rewatch anytime.</p>
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="rc-link">Watch Free Lessons →</a>
+          </div>
+
+          <div class="resource-card featured">
+            <div class="rc-badge">Limited Time</div>
+            <div class="rc-platform tg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="12" fill="#229ED9" />
+                <path d="M5 12l4 3 8-7-5 8-2-3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              Telegram
+            </div>
+            <h3>VIP Community Access</h3>
+            <p>Join our Telegram community for a limited period. Access live discussions, daily market insights, mentor
+              interactions, and collaborative trading analysis.</p>
+            <a href="https://t.me" target="_blank" rel="noopener" class="rc-link btn-primary"
+              style="display:inline-block;text-decoration:none;">Join Telegram Group →</a>
+          </div>
+
+          <div class="resource-card">
+            <div class="rc-platform ig">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="6" fill="url(#igGrad)" />
+                <rect x="7" y="7" width="10" height="10" rx="3" stroke="white" stroke-width="1.5" />
+                <circle cx="12" cy="12" r="2.5" stroke="white" stroke-width="1.5" />
+                <circle cx="16.5" cy="7.5" r="0.8" fill="white" />
+                <defs>
+                  <linearGradient id="igGrad" x1="0" y1="24" x2="24" y2="0">
+                    <stop stop-color="#F58529" />
+                    <stop offset=".5" stop-color="#DD2A7B" />
+                    <stop offset="1" stop-color="#8134AF" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              Instagram
+            </div>
+            <h3>Weekly Market Insights</h3>
+            <p>Regular analysis of major currency pairs, trending market conditions, and key economic events — showing
+              you how professional traders interpret markets.</p>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="rc-link">Follow for Updates →</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DISCLAIMER ── -->
+    <section class="disclaimer-section" id="disclaimer">
+      <div class="container">
+        <div class="disclaimer-box">
+          <div class="disc-header">
+            <span class="disc-icon">⚠️</span>
+            <div>
+              <div class="disc-title">Compliance &amp; Risk Disclosure</div>
+              <div class="disc-sub">Please read before proceeding</div>
+            </div>
+          </div>
+          <div class="disc-body">
+            <p class="disc-main">
+              BlueCandleFx provides <strong>educational and research-based services only</strong>.
+              We are <strong>not SEBI-registered advisors</strong> and do not provide investment advice or guaranteed
+              returns.
+            </p>
+            <div class="disc-risks">
+              <div class="dr-title">Trading Risk Warning</div>
+              <ul>
+                <li>Forex trading involves <strong>substantial risk of capital loss</strong></li>
+                <li>Only trade with money you can afford to lose</li>
+                <li>Past performance does not guarantee future results</li>
+                <li>No strategy guarantees profits under any market condition</li>
+                <li>Students are solely responsible for their own trading decisions</li>
+              </ul>
+            </div>
+            <p class="disc-footer-note">Our focus is <strong>education and responsible trading practices.</strong> By
+              joining any of our programs, you acknowledge this disclaimer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT / JOIN COMMUNITY ── -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Join Our Community</div>
+          <h2>Ready to Begin Your Trading Journey?</h2>
+          <p>Connect with BlueCandleFx across multiple platforms and take the first step.</p>
+        </div>
+        <div class="contact-grid">
+
+          <div class="contact-card email-card">
+            <div class="cc-icon">📧</div>
+            <h3>Email Us</h3>
+            <p>For program inquiries, mentorship questions, or direct support from our team.</p>
+            <a href="mailto:bluecandlefx001@gmail.com" class="cc-link email-link">
+              bluecandlefx001@gmail.com
+            </a>
+          </div>
+
+          <div class="contact-card tg-card">
+            <div class="cc-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="12" fill="#229ED9" />
+                <path d="M5 12l4 3 8-7-5 8-2-3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3>Telegram</h3>
+            <p>Join our Telegram group for daily market updates, community discussions, and live mentor interactions.
+            </p>
+            <a href="https://t.me" target="_blank" rel="noopener" class="cc-link">Join Telegram →</a>
+          </div>
+
+          <div class="contact-card ig-card">
+            <div class="cc-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="6" fill="url(#igGrad2)" />
+                <rect x="7" y="7" width="10" height="10" rx="3" stroke="white" stroke-width="1.5" />
+                <circle cx="12" cy="12" r="2.5" stroke="white" stroke-width="1.5" />
+                <circle cx="16.5" cy="7.5" r="0.8" fill="white" />
+                <defs>
+                  <linearGradient id="igGrad2" x1="0" y1="24" x2="24" y2="0">
+                    <stop stop-color="#F58529" />
+                    <stop offset=".5" stop-color="#DD2A7B" />
+                    <stop offset="1" stop-color="#8134AF" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <h3>Instagram</h3>
+            <p>Trading tips, educational content, chart analysis, and behind-the-scenes market insights from our
+              mentors.</p>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="cc-link">Follow Us →</a>
+          </div>
+
+          <div class="contact-card yt-card">
+            <div class="cc-icon">
+              <svg width="32" height="22" viewBox="0 0 28 20" fill="none">
+                <rect width="28" height="20" rx="5" fill="#FF0000" />
+                <path d="M11 6l8 4-8 4V6z" fill="white" />
+              </svg>
+            </div>
+            <h3>YouTube</h3>
+            <p>Comprehensive educational video courses covering everything from Forex basics to advanced technical
+              analysis and psychology.</p>
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="cc-link">Watch Free Courses →</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CLOSING CTA ── -->
+    <section class="closing-section">
+      <div class="closing-glow"></div>
+      <div class="container">
+        <div class="closing-inner">
+          <h2>Success in trading does not come from one perfect trade.</h2>
+          <p>
+            It comes from <strong>consistent discipline, intelligent risk management, and continuous learning</strong>.
+            At BlueCandleFx, our goal is simple: help traders build
+            <strong>real skills, strong discipline, and sustainable market understanding.</strong>
+          </p>
+          <div class="closing-mantras">
+            <span>Trade Smart.</span>
+            <span class="cm-div">·</span>
+            <span>Learn Continuously.</span>
+            <span class="cm-div">·</span>
+            <span>Grow Consistently.</span>
+          </div>
+          <a href="#contact" class="btn-primary large">Start Your Journey →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo"><span class="blue">Blue</span>CandleFx</span>
+          <p>Forex Education &amp; Mentorship<br />Built by Real Traders, for Real Traders.</p>
+          <a href="mailto:bluecandlefx001@gmail.com" class="footer-email">bluecandlefx001@gmail.com</a>
+        </div>
+        <div class="footer-links">
+          <div class="fl-col">
+            <div class="fl-title">Programs</div>
+            <a href="#offerings">What We Offer</a>
+            <a href="#program">4-Week Roadmap</a>
+            <a href="#resources">Free Resources</a>
+          </div>
+          <div class="fl-col">
+            <div class="fl-title">Company</div>
+            <a href="#about">About Us</a>
+            <a href="#team">Our Mentors</a>
+            <a href="#why">Why Choose Us</a>
+          </div>
+          <div class="fl-col">
+            <div class="fl-title">Connect</div>
+            <a href="mailto:bluecandlefx001@gmail.com">Email</a>
+            <a href="https://t.me" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 BlueCandleFx. All rights reserved.</span>
+        <span class="footer-disclaimer">For educational purposes only. Not SEBI-registered. Trading involves risk of
+          loss.</span>
+      </div>
+    </footer>
+
+  </div><!-- /mainContent -->
+
+  <script src="app.js"></script>
+</body>
+
+</html>
