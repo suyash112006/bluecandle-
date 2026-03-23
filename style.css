@@ -3411,6 +3411,22 @@ body {
     padding: 0 16px;
   }
 
+  /* --- Preloader --- */
+  .logo-blue,
+  .logo-candle,
+  .type-cursor {
+    font-size: 2.2rem;
+  }
+
+  .logo-ring.active.r1 { width: 100px; height: 100px; }
+  .logo-ring.active.r2 { width: 140px; height: 140px; }
+  .logo-ring.active.r3 { width: 180px; height: 180px; }
+
+  .loader-bar-wrap,
+  .loader-status-row {
+    width: 220px;
+  }
+
   /* --- Nav Bar --- */
   .nav-links {
     display: none;
@@ -3663,6 +3679,26 @@ body {
    Final refinements for compact screens
 ══════════════════════════════════════════════ */
 @media (max-width: 480px) {
+
+  /* --- Preloader --- */
+  .logo-blue,
+  .logo-candle,
+  .type-cursor {
+    font-size: 1.8rem;
+  }
+
+  .logo-ring.active.r1 { width: 80px; height: 80px; }
+  .logo-ring.active.r2 { width: 120px; height: 120px; }
+  .logo-ring.active.r3 { width: 160px; height: 160px; }
+
+  .loader-bar-wrap,
+  .loader-status-row {
+    width: 200px;
+  }
+
+  .fx-pair {
+    display: none; /* Hide cluttered floating pairs on very small screens */
+  }
 
   /* --- Hero --- */
   .hero-title {
