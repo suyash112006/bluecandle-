@@ -3187,122 +3187,78 @@ body {
    CONTACT SECTION
 ══════════════════════════════════════════════ */
 .contact-section {
-  padding: 120px 0 100px;
+  padding: 100px 0;
   background: var(--bg);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Background Ticker */
-.community-ticker-wrap {
-  position: absolute;
-  top: 180px;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  opacity: 0.03;
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-  z-index: 1;
-}
-
-.community-ticker {
-  display: inline-block;
-  font-size: 8rem;
-  font-weight: 900;
-  color: var(--text);
-  animation: tickerMove 30s linear infinite;
-}
-
-@keyframes tickerMove {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
 
 .contact-grid {
-  position: relative;
-  z-index: 2;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-top: 40px;
+  gap: 16px;
 }
 
 .contact-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 32px 24px;
+  border-radius: var(--radius-lg);
+  padding: 28px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 12px;
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  gap: 10px;
+  transition: border-color var(--transition), transform var(--transition);
   opacity: 0;
   transform: translateY(30px);
 }
 
 .contact-card.revealed {
-  opacity: 1;
-  transform: translateY(0);
+  animation: contactReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes contactReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .contact-card:hover {
-  border-color: rgba(59, 130, 246, 0.4);
-  transform: translateY(-8px);
-  background: rgba(17, 24, 39, 0.9);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateY(-4px);
 }
 
-.email-card:hover { border-color: rgba(59, 130, 246, 0.6); }
-.tg-card:hover { border-color: rgba(34, 167, 217, 0.6); }
-.ig-card:hover { border-color: rgba(221, 42, 123, 0.6); }
-.yt-card:hover { border-color: rgba(255, 0, 0, 0.5); }
+.email-card:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.tg-card:hover {
+  border-color: rgba(34, 167, 217, 0.4);
+}
+
+.ig-card:hover {
+  border-color: rgba(221, 42, 123, 0.4);
+}
+
+.yt-card:hover {
+  border-color: rgba(255, 0, 0, 0.3);
+}
 
 .cc-icon {
-  font-size: 2.2rem;
-  margin-bottom: 8px;
-  background: var(--bg2);
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  transition: transform 0.4s ease;
-}
-
-.contact-card:hover .cc-icon {
-  transform: scale(1.1) rotate(5deg);
+  font-size: 1.6rem;
+  margin-bottom: 4px;
 }
 
 .contact-card h3 {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
 }
 
 .contact-card p {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   line-height: 1.6;
   flex: 1;
-}
-
-.cc-link {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--blue);
-  text-decoration: none;
-  margin-top: 8px;
-  transition: color 0.3s ease;
-}
-
-.cc-link:hover {
-  color: var(--text);
 }
 
 .cc-link {
@@ -3666,16 +3622,24 @@ body {
     padding: 20px 16px;
   }
 
-  /* --- Contact Grid --- */
+  /* --- Contact Grid (Horizontal Scroll) --- */
   .contact-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    max-width: 100%;
-    margin: 0;
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 10px 16px 30px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  .community-ticker {
-    font-size: 5rem;
+  .contact-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .contact-card {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
   }
 
   .contact-card {
@@ -3779,7 +3743,8 @@ body {
 
   /* --- Offer cards wider on tiny screens --- */
   .offer-card,
-  .why-card {
+  .why-card,
+  .contact-card {
     flex: 0 0 88vw;
     max-width: 320px;
   }
@@ -3789,10 +3754,6 @@ body {
     grid-template-columns: 1fr;
     max-width: 320px;
     margin: 0 auto;
-  }
-
-  .community-ticker {
-    font-size: 3.5rem;
   }
 
   /* --- Footer links stack vertically --- */

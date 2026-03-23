@@ -228,7 +228,7 @@ function initMainPage() {
     initOfferingsScroll();
     initWhyScroll();
     initTimelineScroll();
-    initCommunityReveal();
+    initContactReveal();
 }
 
 
@@ -423,23 +423,25 @@ function initTimelineScroll() {
 }
 
 // ─────────────────────────────────────────────
-// 7. COMMUNITY REVEAL
+// 7. CONTACT SECTION REVEAL
 // ─────────────────────────────────────────────
-function initCommunityReveal() {
-    const cards = document.querySelectorAll('.contact-card.reveal-on-scroll');
+function initContactReveal() {
+    const cards = document.querySelectorAll('.contact-card');
     if (!cards.length) return;
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const delay = parseInt(entry.target.getAttribute('data-delay')) || 0;
-                setTimeout(() => {
-                    entry.target.classList.add('revealed');
-                }, delay);
-                observer.unobserve(entry.target);
+                cards.forEach((card, i) => {
+                    setTimeout(() => {
+                        card.classList.add('revealed');
+                    }, i * 150);
+                });
+                observer.disconnect();
             }
         });
     }, { threshold: 0.15 });
 
-    cards.forEach(card => observer.observe(card));
+    const grid = document.querySelector('.contact-grid');
+    if (grid) observer.observe(grid);
 }
