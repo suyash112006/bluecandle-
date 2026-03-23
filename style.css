@@ -3335,6 +3335,40 @@ body {
 }
 
 @media (max-width: 768px) {
+  .about-section,
+  .offerings-section,
+  .program-section,
+  .why-section,
+  .resources-section,
+  .contact-section {
+    padding: 60px 0;
+  }
+
+  .closing-section {
+    padding: 80px 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 8vw, 2.8rem);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+
+  .hero-cta .btn-primary,
+  .hero-cta .btn-ghost {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  .offer-card,
+  .why-card {
+    flex: 0 0 85vw;
+    max-width: 280px;
+  }
+
   .hero-trust-row {
     gap: 10px;
   }
@@ -3342,8 +3376,6 @@ body {
   .trust-div {
     display: none;
   }
-
-
 
   .resources-grid {
     grid-template-columns: 1fr;
@@ -3354,8 +3386,6 @@ body {
     max-width: 360px;
     margin: 0 auto;
   }
-
-
 
   .contact-grid {
     grid-template-columns: 1fr;
@@ -3375,11 +3405,11 @@ body {
     flex-direction: column;
   }
 
-
   .program-cta-box {
     padding: 28px;
   }
 }
+
 
 @media (max-width: 480px) {
   .roadmap-item {
