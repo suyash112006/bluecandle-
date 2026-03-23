@@ -274,7 +274,7 @@ function initHeroCanvas() {
 function initScrollReveal() {
     const selector = [
         '.feat-card', '.offer-card', '.why-card',
-        '.team-card', '.roadmap-item', '.resource-card',
+        '.team-card', '.rm-col', '.resource-card',
         '.contact-card', '.mission-card'
     ].join(', ');
 
