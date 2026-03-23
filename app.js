@@ -229,6 +229,7 @@ function initMainPage() {
     initWhyScroll();
     initTimelineScroll();
     initContactReveal();
+    initResourcesReveal();
 }
 
 
@@ -443,5 +444,29 @@ function initContactReveal() {
     }, { threshold: 0.15 });
 
     const grid = document.querySelector('.contact-grid');
+    if (grid) observer.observe(grid);
+}
+
+// ─────────────────────────────────────────────
+// 8. FREE RESOURCES REVEAL
+// ─────────────────────────────────────────────
+function initResourcesReveal() {
+    const cards = document.querySelectorAll('.resource-card');
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                cards.forEach((card, i) => {
+                    setTimeout(() => {
+                        card.classList.add('revealed');
+                    }, i * 150);
+                });
+                observer.disconnect();
+            }
+        });
+    }, { threshold: 0.15 });
+
+    const grid = document.querySelector('.resources-grid');
     if (grid) observer.observe(grid);
 }

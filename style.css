@@ -3008,6 +3008,12 @@ body {
   gap: 12px;
   transition: border-color var(--transition), transform var(--transition);
   position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.resource-card.revealed {
+  animation: contactReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .resource-card:hover {
@@ -3603,14 +3609,26 @@ body {
     padding: 22px;
   }
 
-  /* --- Free Resources --- */
+  /* --- Free Resources (Horizontal Scroll) --- */
   .resources-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
     gap: 16px;
+    padding: 10px 16px 30px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .resources-grid::-webkit-scrollbar {
+    display: none;
   }
 
   .resource-card {
-    padding: 22px;
+    flex: 0 0 80vw;
+    max-width: 320px;
+    padding: 24px;
+    scroll-snap-align: start;
   }
 
   /* --- Disclaimer --- */
@@ -3638,7 +3656,8 @@ body {
   }
 
   .contact-card {
-    flex: 0 0 280px;
+    flex: 0 0 80vw;
+    max-width: 320px;
     scroll-snap-align: start;
   }
 
@@ -3742,18 +3761,22 @@ body {
   }
 
   /* --- Offer cards wider on tiny screens --- */
-  .offer-card,
-  .why-card,
-  .contact-card {
-    flex: 0 0 88vw;
-    max-width: 320px;
+  /* --- Contact & Resources (Horizontal Scroll) --- */
+  .contact-grid,
+  .resources-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
-  /* --- Contact grid single column --- */
-  .contact-grid {
-    grid-template-columns: 1fr;
+  .offer-card,
+  .why-card,
+  .contact-card,
+  .resource-card {
+    flex: 0 0 88vw;
     max-width: 320px;
-    margin: 0 auto;
   }
 
   /* --- Footer links stack vertically --- */
